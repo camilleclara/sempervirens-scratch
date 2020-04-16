@@ -50,6 +50,11 @@ class User implements UserInterface
      */
     private $prenom;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TypeProfil", inversedBy="users")
+     */
+    private $typeprofil;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -160,6 +165,18 @@ class User implements UserInterface
     public function setPrenom(?string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getTypeprofil(): ?TypeProfil
+    {
+        return $this->typeprofil;
+    }
+
+    public function setTypeprofil(?TypeProfil $typeprofil): self
+    {
+        $this->typeprofil = $typeprofil;
 
         return $this;
     }
