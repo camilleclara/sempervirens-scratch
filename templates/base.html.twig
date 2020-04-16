@@ -16,9 +16,16 @@
         
           <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
+              {% if not app.user %}
               <li class="nav-item">
-                <a class="nav-link" href="{{path('login')}}">Login/Logout <span class="sr-only"></span></a>
+                <a class="nav-link" href="{{path('app_login')}}">Login <span class="sr-only"></span></a>
               </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{path('app_logout')}}">Logout <span class="sr-only"></span></a>
+              </li>
+              {% endif %}
+          
               <li class="nav-item">
                 <a class="nav-link" href="{{path('profile')}}">Profil</a>
               </li>
