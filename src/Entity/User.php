@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -54,6 +56,16 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity="App\Entity\TypeProfil", inversedBy="users")
      */
     private $typeprofil;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Choix", mappedBy="user")
+     */
+    private $choixes;
+
+    public function __construct()
+    {
+        $this->choixes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -177,6 +189,37 @@ class User implements UserInterface
     public function setTypeprofil(?TypeProfil $typeprofil): self
     {
         $this->typeprofil = $typeprofil;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Choix[]
+     */
+    public function getChoixes(): Collection
+    {
+        return $this->choixes;
+    }
+
+    public function addChoix(Choix $choix): self
+    {
+        if (!$this->choixes->contains($choix)) {
+            $this->choixes[] = $choix;
+            $choix->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChoix(Choix $choix): self
+    {
+        if ($this->choixes->contains($choix)) {
+            $this->choixes->removeElement($choix);
+            // set the owning side to null (unless already changed)
+            if ($choix->getUser() === $this) {
+                $choix->setUser(null);
+            }
+        }
 
         return $this;
     }
