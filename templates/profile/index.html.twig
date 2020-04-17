@@ -11,7 +11,7 @@
     </style>
     
     <div class="example-wrapper">
-        <h1>Hello {{ app.user.getUsername }}! ✅</h1>
+        <h1>Hello {{ app.user.getPseudo| capitalize }}! ✅</h1>
     </div>
     {% else %}
     <div class="example-wrapper">
@@ -23,5 +23,62 @@
             <li>Click <a href="{{ path('app_register')}}">here</a> to register</li>
         </ul>
     </div>
+    {% endif %}
+    {% if not app.user.typeprofil %}
+    <p>To enjoy our application at its best, take 5 minutes to take this short <a href="{{path('quizz')}}"> quizz</a></p>
+    {% else %}
+
+    <div class="card border-success mb-3" style="max-width: 20rem;">
+        <div class="card-header">{{ app.user.getTypeprofil.getnom }}</div>
+        <div class="card-body">
+          <h4 class="card-title">According to your answers to our quizz, it seems you are a <strong>
+            {{ app.user.getTypeprofil.getnom }} </strong>.</h4>
+          <p class="card-text">This profile is described as such:
+            {{ app.user.getTypeprofil.getDescription }}</p>
+        </div>
+      </div>
+     <h2>Challenges: </h2>
+     <div class="row m-auto">
+        <div class="card text-white bg-primary m-3" style="max-width: 20rem;">
+            <div class="card-header">Challenge Accepted !</div>
+            <div class="card-body">
+              <h4 class="card-title">Do this do that </h4>
+              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo laboriosam iste perferendis. Assumenda eveniet sequi ut veniam numquam consequuntur molestiae debitis dicta, ad consectetur ipsam, optio error aperiam possimus reiciendis.</p>
+            </div>
+          </div>
+    
+          <div class="card text-white bg-success m-3" style="max-width: 20rem;">
+            <div class="card-header">Challenge Fulfilled!</div>
+            <div class="card-body">
+              <h4 class="card-title">You are a winner !</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi quam voluptatem molestiae rem aspernatur fugit, enim deserunt impedit optio molestias reprehenderit, blanditiis nisi vitae aliquam officiis. Esse, eaque consequuntur</p>
+            </div>
+          </div>
+
+          <div class="card text-white bg-success m-3" style="max-width: 20rem;">
+            <div class="card-header">Challenge Fulfilled!</div>
+            <div class="card-body">
+              <h4 class="card-title">You are a winner !</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi quam voluptatem molestiae rem aspernatur fugit, enim deserunt impedit optio molestias reprehenderit, blanditiis nisi vitae aliquam officiis. Esse, eaque consequuntur</p>
+            </div>
+          </div>
+
+          <div class="card text-white bg-success m-3" style="max-width: 20rem;">
+            <div class="card-header">Challenge Fulfilled!</div>
+            <div class="card-body">
+              <h4 class="card-title">You are a winner !</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi quam voluptatem molestiae rem aspernatur fugit, enim deserunt impedit optio molestias reprehenderit, blanditiis nisi vitae aliquam officiis. Esse, eaque consequuntur</p>
+            </div>
+          </div>
+
+          <div class="card text-white bg-success m-3" style="max-width: 20rem;">
+            <div class="card-header">Challenge Fulfilled!</div>
+            <div class="card-body">
+              <h4 class="card-title">You are a winner !</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi quam voluptatem molestiae rem aspernatur fugit, enim deserunt impedit optio molestias reprehenderit, blanditiis nisi vitae aliquam officiis. Esse, eaque consequuntur</p>
+            </div>
+          </div>
+
+     </div>
     {% endif %}
 {% endblock %}
