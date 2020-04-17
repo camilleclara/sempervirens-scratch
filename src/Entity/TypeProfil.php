@@ -104,34 +104,4 @@ class TypeProfil
         return $this;
     }
 
-    /**
-     * @return Collection|Reponse[]
-     */
-    public function getReponses(): Collection
-    {
-        return $this->reponses;
-    }
-
-    public function addReponse(Reponse $reponse): self
-    {
-        if (!$this->reponses->contains($reponse)) {
-            $this->reponses[] = $reponse;
-            $reponse->setTypeprofil($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReponse(Reponse $reponse): self
-    {
-        if ($this->reponses->contains($reponse)) {
-            $this->reponses->removeElement($reponse);
-            // set the owning side to null (unless already changed)
-            if ($reponse->getTypeprofil() === $this) {
-                $reponse->setTypeprofil(null);
-            }
-        }
-
-        return $this;
-    }
 }

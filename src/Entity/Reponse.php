@@ -26,10 +26,6 @@ class Reponse
      */
     private $question;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TypeProfil", inversedBy="reponses")
-     */
-    private $typeprofil;
 
     /**
      * @ORM\Column(type="integer")
@@ -65,17 +61,6 @@ class Reponse
         return $this;
     }
 
-    public function getTypeprofil(): ?TypeProfil
-    {
-        return $this->typeprofil;
-    }
-
-    public function setTypeprofil(?TypeProfil $typeprofil): self
-    {
-        $this->typeprofil = $typeprofil;
-
-        return $this;
-    }
 
     public function getPoints(): ?int
     {
