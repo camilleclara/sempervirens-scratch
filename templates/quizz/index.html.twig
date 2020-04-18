@@ -9,15 +9,15 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    
+    <h2>{{question.texte}}</h2>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/sempervirens/src/Controller/QuizzController.php'|file_link(0) }}">src/Controller/QuizzController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/sempervirens/templates/quizz/index.html.twig'|file_link(0) }}">templates/quizz/index.html.twig</a></code></li>
-    </ul>
-    {{question.texte}}
-    {{dump(reponses) }}
+    <form method="post" action="">
 
+    {% for reponse in reponses %}
+        <div><input type="radio" name="reponse" value="{{reponse.id}}">{{reponse.texte}}</div>
+    {% endfor %}
+    <button type="submit">Send</button>
+    </form>
 </div>
 {% endblock %}

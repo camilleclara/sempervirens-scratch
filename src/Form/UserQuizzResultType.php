@@ -2,26 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Choix;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class QuizzChoiceType extends AbstractType
+class UserQuizzResultType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
-            ->add('reponse', ChoiceType::class)   
+            ->add('answers', CollectionType::class, array(
+                'entry_type' => QuizzChoiceType::class,
+                'allow_add'=>false
+            ))
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Choix::class,
+            // Configure your form options here
         ]);
     }
 }
