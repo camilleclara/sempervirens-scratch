@@ -33,9 +33,15 @@ class Categorie
      */
     private $questions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Scroll", mappedBy="categorie")
+     */
+    private $scrolls;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->scrolls = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,6 +98,37 @@ class Categorie
             // set the owning side to null (unless already changed)
             if ($question->getCategorie() === $this) {
                 $question->setCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Scroll[]
+     */
+    public function getScrolls(): Collection
+    {
+        return $this->scrolls;
+    }
+
+    public function addScroll(Scroll $scroll): self
+    {
+        if (!$this->scrolls->contains($scroll)) {
+            $this->scrolls[] = $scroll;
+            $scroll->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScroll(Scroll $scroll): self
+    {
+        if ($this->scrolls->contains($scroll)) {
+            $this->scrolls->removeElement($scroll);
+            // set the owning side to null (unless already changed)
+            if ($scroll->getCategorie() === $this) {
+                $scroll->setCategorie(null);
             }
         }
 

@@ -3,8 +3,9 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use App\Entity\Reponse;
+use App\Entity\Scroll;
 
+use App\Entity\Reponse;
 use App\Entity\Question;
 use App\Entity\Categorie;
 use App\Entity\TypeProfil;
@@ -509,6 +510,48 @@ class UserFixtures extends Fixture
         $manager->persist($reponse53);
         $manager->persist($reponse54);
         $manager->persist($reponse55);
+
+
+        //fixture for scrolls of truth
+        $scroll1 = new Scroll();
+        $scroll1->setTexte("27 000 trees are cut down each day so we can have toilet paper");
+        $scroll1->setCategorie($consommation);
+        $manager->persist($scroll1);
+
+        $scroll2 = new Scroll();
+        $scroll2->setTexte("Aluminium can be recycled continuously, as in forever. Recycling one aluminium can saves enough energy to run our TVs for at least 3 hours.");
+        $scroll2->setCategorie($consommation);
+        $manager->persist($scroll2);
+
+        $scroll3 = new Scroll();
+        $scroll3->setTexte("80 trillion aluminium cans are used by human every year.");
+        $scroll3->setCategorie($consommation);
+        $manager->persist($scroll3);
+
+        $scroll4 = new Scroll();
+        $scroll4->setTexte("In 2019, 4.5 billion passengers were carried by the workd's airlines.");
+        $scroll4->setCategorie($deplacements);
+        $manager->persist($scroll4);
+
+        $scroll5 = new Scroll();
+        $scroll5->setTexte("Air pollution has effects as small as burning eyes and itchy throat to as large as breathing problems and death.");
+        $scroll5->setCategorie($deplacements);
+        $manager->persist($scroll5);
+
+        $scroll6 = new Scroll();
+        $scroll6->setTexte("Rising levels of air pollution in Beijing has brought a new disease: the Beijing cough.");
+        $scroll6->setCategorie($deplacements);
+        $manager->persist($scroll6);
+
+        $scroll7 = new Scroll();
+        $scroll7->setTexte("Making your own laundry powder only requires Marseille soap, baking soda and few drops of esssential oil.");
+        $scroll7->setCategorie($diy);
+        $manager->persist($scroll7);
+
+        $scroll8 = new Scroll();
+        $scroll8->setTexte("Switching to a green lifestyle does not mean you need to give up what you consider luxuries.");
+        $scroll8->setCategorie($diy);
+        $manager->persist($scroll8);
 
         for ($i = 0; $i<10; $i++){
             $user = new User();
