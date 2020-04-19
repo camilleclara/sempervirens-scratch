@@ -21,7 +21,7 @@ class QuizzController extends AbstractController
      */
     public function createFormulaire(Request $req, SessionInterface $session)
     {
-
+        
 
         //If there was something in poste, execute this:
         if($req->request->count()>0){
@@ -47,7 +47,7 @@ class QuizzController extends AbstractController
             $questionsCount = count($allQuestions);
             $nextQuestion = $session->get('pagenum');
 
-            if($nextQuestion >= $questionsCount){
+            if($nextQuestion > $questionsCount){
                 return $this->RedirectToRoute("analyse_result");
             }
             return $this->RedirectToRoute("create_form");
@@ -57,6 +57,7 @@ class QuizzController extends AbstractController
         if (!$page){
             $page = 1;
         }
+        
         //Get the right id from the request route
         $em = $this->getDoctrine()->getManager();
         $repQ = $em->getRepository(Question::class);
@@ -82,7 +83,11 @@ class QuizzController extends AbstractController
      */
     public function analyse(Request $req)
     {
-        return $this->render('quizz/analyse.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Choix::class);
+        $choix = $this->getUser()->getChoixes();
+        
+        return $this->render('quizz/analyse.html.twig', ['choices'=>$choix]);
 
     }
 }

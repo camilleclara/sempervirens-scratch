@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-Ok redirection works
+    {% for choice in choices %}
+        <p>{{choice.question.texte}}</p>
+        <p>{{choice.reponse.texte}}</p>
+    {% endfor %}
 
 {% endblock %}
