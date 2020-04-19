@@ -1,9 +1,24 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
+<div class="jumbotron">
+    <h1 class="display-3">You are a {{profil.nom|upper}}</h1>
+    <p class="lead">Welcome to SemperVirens !</p>
+    <hr class="my-4">
+    <p> The results of your test show that {{profil.description}}</p>
+    <p class="lead">
+      You can now review your profile <a class="btn btn-primary btn-lg" href="{{path('profile')}}" role="button"> here</a>.
+    </p>
+</div>
     {% for choice in choices %}
-        <p>{{choice.question.texte}}</p>
-        <p>{{choice.reponse.texte}}</p>
+    <div class="toast show w-75 p-3 my-autp" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="mr-auto">{{choice.question.texte}}</strong>
+          <small>:)</small>
+        </div>
+        <div class="toast-body">
+            {{choice.reponse.texte}}
+        </div>
+      </div>
     {% endfor %}
 
 {% endblock %}

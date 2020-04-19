@@ -46,41 +46,65 @@ class UserFixtures extends Fixture
         $hermione = new TypeProfil();
         $hermione->setNom("Hermione");
         $hermione->setDescription("It looks like you have already figured it out ! Keep up with the good work and enjoy our tips and functionalities");
+        $hermione->setConsommation(true);
+        $hermione->setDiy(true);
+        $hermione->setDeplacements(true);
         $manager->persist($hermione);
 
         $ron = new TypeProfil();
         $ron->setNom("Ron");
         $ron->setDescription("It looks like you could use some tips on how to move around in a more sustainable way. Welcome to SemperVirens!");
+        $ron->setConsommation(true);
+        $ron->setDeplacements(false);
+        $ron->setDiy(true);
         $manager->persist($ron);
 
         $hedwige = new TypeProfil();
         $hedwige->setNom("Hedwige");
         $hedwige->setDescription("Impressive, but maybe we can help you with some diy tips and tricks ? Welcome !");
+        $hedwige->setConsommation(true);
+        $hedwige->setDeplacements(true);
+        $hedwige->setDiy(false);
         $manager->persist($hedwige);
 
         $harry = new TypeProfil();
         $harry->setNom("Harry");
         $harry->setDescription("Good start, but we can give you some advice and exercices to help you reduce your consumption.");
+        $harry->setConsommation(false);
+        $harry->setDeplacements(true);
+        $harry->setDiy(true);
         $manager->persist($harry);
 
         $draco = new TypeProfil();
         $draco->setNom("Draco");
         $draco->setDescription("It looks like you really could use a fresh start with... everything? Let's make it happend, you can do it !");
+        $draco->setConsommation(false);
+        $draco->setDeplacements(false);
+        $draco->setDiy(false);
         $manager->persist($draco);
 
         $luna = new TypeProfil();
         $luna->setNom("Luna");
         $luna->setDescription("Your DIY skills are on top ! Let's guide you with your travel and consumption !");
+        $luna->setConsommation(false);
+        $luna->setDeplacements(false);
+        $luna->setDiy(true);
         $manager->persist($luna);
 
         $neville = new TypeProfil();
         $neville->setNom("Neville");
         $neville->setDescription("Good news is, we can tell you are off a good start, consumming as little as you do. Now, let's work on your travels and diy !");
+        $neville->setConsommation(true);
+        $neville->setDeplacements(false);
+        $neville->setDiy(false);
         $manager->persist($neville);
 
         $sirius = new TypeProfil();
         $sirius->setNom("Sirius");
         $sirius->setDescription("It looks like you don't move around too much, but maybe we can also help you consume less and less industrial !");
+        $sirius->setConsommation(false);
+        $sirius->setDeplacements(true);
+        $sirius->setDiy(false);
         $manager->persist($sirius);
 
 

@@ -38,6 +38,21 @@ class TypeProfil
      */
     private $reponses;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $consommation;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $deplacements;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $diy;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -100,6 +115,42 @@ class TypeProfil
                 $user->setTypeprofil(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getConsommation(): ?bool
+    {
+        return $this->consommation;
+    }
+
+    public function setConsommation(?bool $consommation): self
+    {
+        $this->consommation = $consommation;
+
+        return $this;
+    }
+
+    public function getDeplacements(): ?bool
+    {
+        return $this->deplacements;
+    }
+
+    public function setDeplacements(?bool $deplacements): self
+    {
+        $this->deplacements = $deplacements;
+
+        return $this;
+    }
+
+    public function getDiy(): ?bool
+    {
+        return $this->diy;
+    }
+
+    public function setDiy(?bool $diy): self
+    {
+        $this->diy = $diy;
 
         return $this;
     }

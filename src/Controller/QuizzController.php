@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Entity\Choix;
 use App\Entity\Reponse;
 use App\Entity\Question;
-use App\Form\QuizzChoiceType;
+use App\Entity\TypeProfil;
 
+use App\Form\QuizzChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,7 +58,6 @@ class QuizzController extends AbstractController
         if (!$page){
             $page = 1;
         }
-        
         //Get the right id from the request route
         $em = $this->getDoctrine()->getManager();
         $repQ = $em->getRepository(Question::class);
@@ -87,7 +87,72 @@ class QuizzController extends AbstractController
         $rep = $em->getRepository(Choix::class);
         $choix = $this->getUser()->getChoixes();
         
-        return $this->render('quizz/analyse.html.twig', ['choices'=>$choix]);
+        //Get the different scores for each category
+        //Get the minimal score necessary to pass
+        $successFactor = 0.5;
+        $maxOfQuestion = 3;
+
+        $pointsDiy = 0;
+        $pointsDeplacements = 0;
+        $pointsConso = 0;
+
+        $totalDiy = 0;
+        $totalDeplacements = 0;
+        $totalConso = 0;
+
+        foreach($choix as $num=>$choice){
+            $categorie = $choice->getQuestion()->getCategorie();
+            $value = $choice->getReponse()->getPoints();
+            if ($categorie->getNom()=="diy"){
+                $pointsDiy = $pointsDiy + $value;
+                $totalDiy = $totalDiy + $maxOfQuestion;
+            }
+            if ($categorie->getNom()=="deplacements"){
+                $pointsDeplacements = $pointsDeplacements + $value;
+                $totalDeplacements = $totalDeplacements + $maxOfQuestion;
+            }
+            if ($categorie->getNom()=="consommation"){
+                $pointsConso = $pointsConso + $value;
+                $totalConso = $totalConso + $maxOfQuestion;
+            }
+
+        }
+        
+        $flagDeplacements = false;
+        $flagDiy = false;
+        $flagConso = false;
+
+        //get the total of points for each category and set minima for success
+        if($pointsDeplacements >= ($totalDeplacements * $successFactor)){
+            $flagDeplacements = true;
+        }
+        if($pointsDiy >= ($totalDiy * $successFactor)){
+            $flagDiy = true;
+        }
+        if($pointsConso >= ($totalConso * $successFactor)){
+            $flagConso = true;
+        }
+        $arrayResults = [$flagConso, $flagDeplacements, $flagDiy];
+
+        $repoProfiles = $em->getRepository(TypeProfil::class);
+        $allProfiles = $repoProfiles->findAll();
+
+        foreach($allProfiles as $index=>$profile){
+            $consoProfile = $profile->getConsommation();
+            $deplacementsProfile = $profile->getDeplacements();
+            $diyProfile = $profile->getDiy();
+            $arrayProfile = [$consoProfile, $deplacementsProfile, $diyProfile];
+            if($arrayResults == $arrayProfile){
+                //set profile type to user
+                $currentUser = $this->getUser();
+                $currentUser->setTypeProfil($profile);
+                $em->persist($currentUser);
+                $em->flush();
+
+            }
+        }
+        $profilUtilisateur = $this->getUser()->getTypeProfil();
+        return $this->render('quizz/analyse.html.twig', ['choices'=>$choix, 'profil'=>$profilUtilisateur]);
 
     }
 }
