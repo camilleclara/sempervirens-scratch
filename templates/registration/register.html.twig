@@ -4,6 +4,7 @@
 
 {% block body %}
     <h1>Register</h1>
+    <p>Already a member ? Click <a href="{{path('app_login')}}"> here </a> to log in .</p>
 
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email) }}
@@ -13,4 +14,5 @@
         {{ form_row(registrationForm.prenom) }}
         <button class="btn btn-outline-secondary">Register</button>
     {{ form_end(registrationForm) }}
+    
 {% endblock %}

@@ -11,19 +11,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class QuizzController extends AbstractController
 {
     /**
-     * @Route("/quizz/{page?1}", name="create_form")
+     * @Route("/quizz/", name="create_form")
      */
-    public function createFormulaire(Request $req)
+    public function createFormulaire(Request $req, SessionInterface $session)
     {
+
+
         //If there was something in poste, execute this:
         if($req->request->count()>0){
-            $idreponse=$req->request->get("reponse");
 
+            $idreponse=$req->request->get("reponse");
             $em = $this->getDoctrine()->getManager();
             $repQ = $em->getRepository(Question::class);
             $repR = $em->getRepository(Reponse::class);
@@ -37,15 +40,24 @@ class QuizzController extends AbstractController
 
             $em->persist($choix);
             $em->flush();
-            return $this->render('quizz/working.html.twig', [
-                'idreponse'=>$idreponse
-               ]);
+
+            //check if it was the last question
+            $repTotalQuestions = $em->getRepository(Question::class);
+            $allQuestions = $repTotalQuestions->findAll();
+            $questionsCount = count($allQuestions);
+            $nextQuestion = $session->get('pagenum');
+
+            if($nextQuestion >= $questionsCount){
+                return $this->RedirectToRoute("analyse_result");
+            }
+            return $this->RedirectToRoute("create_form");
         }
-        //Get the right id from the request route
-        $page=$req->get("page");
-        if (!isset($page)){
+        //Get or initialize page numberin session to know what question to display
+        $page = $session->get("pagenum");
+        if (!$page){
             $page = 1;
         }
+        //Get the right id from the request route
         $em = $this->getDoctrine()->getManager();
         $repQ = $em->getRepository(Question::class);
 
@@ -56,11 +68,24 @@ class QuizzController extends AbstractController
         $repR = $em->getRepository(Reponse::class);
         $reponses = $repR->findBy(['question'=>$page]);
 
+        //increment pagenumber in the session
+        $incrempage = $page +1;
+        $session->set("pagenum", $incrempage);
+
         return $this->render('quizz/index.html.twig', [
             'question'=>$question, 'reponses'=>$reponses
         ]);
 
     }
+    /**
+     * @Route("/analyse/quizz/", name="analyse_result")
+     */
+    public function analyse(Request $req)
+    {
+        return $this->render('quizz/analyse.html.twig');
+
+    }
+
     /**
      * @Route("/quizz/fritata/{int}", name="quizz")
      */
