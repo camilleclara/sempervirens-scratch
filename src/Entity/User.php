@@ -62,9 +62,15 @@ class User implements UserInterface
      */
     private $choixes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="user")
+     */
+    private $items;
+
     public function __construct()
     {
         $this->choixes = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,6 +224,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($choix->getUser() === $this) {
                 $choix->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Item[]
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+            $item->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->items->contains($item)) {
+            $this->items->removeElement($item);
+            // set the owning side to null (unless already changed)
+            if ($item->getUser() === $this) {
+                $item->setUser(null);
             }
         }
 

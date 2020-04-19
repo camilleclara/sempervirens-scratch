@@ -26,7 +26,7 @@ class HomeController extends AbstractController
         $repTotalScrolls = $em->getRepository(Scroll::class);
         $allScrolls = $repTotalScrolls->findAll();
         $scrollsCount = count($allScrolls);
-        $random = random_int(0, $scrollsCount);
+        $random = random_int(1, $scrollsCount);
 
         $scroll = $rep->findOneBy(["id"=>$random]);
         $text= $scroll->getTexte();

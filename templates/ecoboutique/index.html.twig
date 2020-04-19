@@ -1,20 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EcoboutiqueController!{% endblock %}
+{% block title %}Ecoboutique - SemperVirens{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    {% if not app.user %}
+        <div class="example-wrapper">
+            
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/sempervirens/src/Controller/EcoboutiqueController.php'|file_link(0) }}">src/Controller/EcoboutiqueController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/sempervirens/templates/ecoboutique/index.html.twig'|file_link(0) }}">templates/ecoboutique/index.html.twig</a></code></li>
-    </ul>
-</div>
+            <p>You are not logged in yet:</p>
+            <ul>
+                <li>Click <a href="{{ path('app_login')}}"> here</a> to log in</li>
+                <li>Click <a href="{{ path('app_register')}}">here</a> to register</li>
+            </ul>
+        </div>
+    {% else %}
+        <h1>Welcome to SemperVirens's EcoBoutique !</h1>
+        <a href="{{path('ecoboutique_add')}}" class='btn btn-primary'>Add an item</a>
+        {% if not items %}
+            <p>There is no item available for now, click <a href="{{path('ecoboutique_add')}}">here</a> to add one !</p>
+        {% else %}
+        <div class="row m-auto">
+            {% for item in items %}
+            <div class="card border-success m-3" style="max-width: 20rem;">
+                <div class="card-header"><h4>{{item.nom}}</h4></div>
+                <div class="card-body">
+                    {% if not item.image %}
+                    <img src="{{img_folder}}/panda.jpg" alt="image de l'article" style='max-width:150px; max-height:150px;'>
+                    {% else %}
+                        <img src="{{img_folder}}/{{item.image}}" alt="image de l'article" style='max-width:150px; max-height:150px;'>
+                    {% endif %}
+                    <p class="card-title">{{item.description}}</p>
+                    <br>
+                    <p>This item is offered by {{item.user.pseudo}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endif %}
 {% endblock %}
