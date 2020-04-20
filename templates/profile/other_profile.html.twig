@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Member - SemperVirens{% endblock %}
+
+
+{% block body %}
+    {% if not app.user %}
+        <div class="example-wrapper">
+            <p>You are not logged in yet:</p>
+            <ul>
+                <li>Click <a href="{{ path('app_login')}}"> here</a> to log in</li>
+                <li>Click <a href="{{ path('app_register')}}">here</a> to register</li>
+            </ul>
+        </div>
+    {% else %}
+    <div class="jumbotron">
+        <h1 class="display-3">{{member.pseudo}}</h1>
+        {% if not member.typeProfil %}
+        <p class="lead">{{member.pseudo}} has not taken the test yet</p>
+        {% else %}
+        <p class="lead">{{member.pseudo}} is a {{member.typeProfil.nom}}</p>
+        {% endif %}
+        {{form_start(formulaire)}}
+        {{form_widget(formulaire)}}
+        <input type="submit" class="btn btn-primary" value="envoyer"/>
+        <input type="hidden" name="pseudo" value="{{member.pseudo}}">
+        {{form_end(formulaire)}}
+    </div>
+    {% endif %}
+{% endblock %}

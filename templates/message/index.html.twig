@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MessageController!{% endblock %}
+
+{% block body %}
+{% if not app.user %}
+        <div class="example-wrapper">
+            <p>You are not logged in yet:</p>
+            <ul>
+                <li>Click <a href="{{ path('app_login')}}"> here</a> to log in</li>
+                <li>Click <a href="{{ path('app_register')}}">here</a> to register</li>
+            </ul>
+        </div>
+{% else %}
+
+    <div class="example-wrapper">
+        {% if not messages %}
+        <p>You have not received any message yet</p>
+        {% else %}
+        <h1>Check your messages here !</h1>
+        <div>
+            <h2>Messages received</h2>
+            {% for message in messages %}
+                <p>{{message.texte}}</p>
+                <p>{{message.fromUser.pseudo}}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if not sendmessages %}
+        <p>You have not sent any message yet</p>
+        {% else %}
+        <div>
+            <h2>Messages sent</h2>
+            {% for sendmessage in sendmessages %}
+                <p>{{sendmessage.texte}}</p>
+                <p>{{sendmessage.fromUser.pseudo}}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+    </div>
+{% endif %}
+{% endblock %}

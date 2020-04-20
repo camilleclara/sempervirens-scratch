@@ -67,10 +67,22 @@ class User implements UserInterface
      */
     private $items;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="fromUser")
+     */
+    private $messages;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="toUser")
+     */
+    private $sendMessages;
+
     public function __construct()
     {
         $this->choixes = new ArrayCollection();
         $this->items = new ArrayCollection();
+        $this->messages = new ArrayCollection();
+        $this->sendMessages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -255,6 +267,68 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($item->getUser() === $this) {
                 $item->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setFromUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getFromUser() === $this) {
+                $message->setFromUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getSendMessages(): Collection
+    {
+        return $this->sendMessages;
+    }
+
+    public function addSendMessage(Message $sendMessage): self
+    {
+        if (!$this->sendMessages->contains($sendMessage)) {
+            $this->sendMessages[] = $sendMessage;
+            $sendMessage->setToUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSendMessage(Message $sendMessage): self
+    {
+        if ($this->sendMessages->contains($sendMessage)) {
+            $this->sendMessages->removeElement($sendMessage);
+            // set the owning side to null (unless already changed)
+            if ($sendMessage->getToUser() === $this) {
+                $sendMessage->setToUser(null);
             }
         }
 

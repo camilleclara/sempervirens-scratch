@@ -31,7 +31,10 @@
                     {% endif %}
                     <p class="card-title">{{item.description}}</p>
                     <br>
-                    <p>This item is offered by {{item.user.pseudo}}</p>
+                   <form action="{{path('other_profile')}}" method="post">
+                    <input type="hidden" name="pseudo" value="{{item.user.pseudo}}">
+                    <p>This item is offered by <button class="btn btn-secondary">{{item.user.pseudo}}</button>.</p>
+                   </form>
                 </div>
             </div>
             {% endfor %}
