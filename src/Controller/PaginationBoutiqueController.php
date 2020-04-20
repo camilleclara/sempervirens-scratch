@@ -10,12 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class EcoboutiqueController extends AbstractController
+class PaginationBoutiqueController extends AbstractController
 {
     /**
-     * @Route("/ecoboutique", name="ecoboutique")
+     * @Route("/pagination/ecoboutique", name="pagination/ecoboutique")
      */
-    public function display(PaginatorInterface $paginator, Request $request)
+    public function displayPagination(PaginatorInterface $paginator, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Item::class);
@@ -25,14 +25,14 @@ class EcoboutiqueController extends AbstractController
         $paginationItems= $paginator->paginate($allItems, $numeroPage);
 
 
-        return $this->render('ecoboutique/index.html.twig', [
+        return $this->render('ecoboutique/pagination_index.html.twig', [
             'controller_name' => 'EcoboutiqueController','paginationItems'=>$paginationItems, 'items'=>$allItems
         ]);
     }
     /**
-     * @Route("/ecoboutique/add/article", name="ecoboutique_add")
+     * @Route("/pagination/ecoboutique/add/article", name="pagination_ecoboutique_add")
      */
-    public function add(Request $req)
+    public function addPagination(Request $req)
     {
         $item = new Item();
         $formulaireItem=$this->createForm(ItemRegistrationFormType::class, $item);
@@ -46,11 +46,11 @@ class EcoboutiqueController extends AbstractController
             $em=$this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
-            return $this->RedirectToRoute('ecoboutique');
+            return $this->RedirectToRoute('pagination_ecoboutique');
 
         }
         else {
-            return $this->render('ecoboutique/add.html.twig', [
+            return $this->render('ecoboutique/pagination_add.html.twig', [
                 'formulaire' => $formulaireItem->createView()
             ]);
         }

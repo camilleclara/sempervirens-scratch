@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EcoboutiqueController!{% endblock %}
+
+{% block body %}
+
+{% if not app.user %}
+        <div class="example-wrapper">
+            
+
+            <p>You are not logged in yet:</p>
+            <ul>
+                <li>Click <a href="{{ path('app_login')}}"> here</a> to log in</li>
+                <li>Click <a href="{{ path('app_register')}}">here</a> to register</li>
+            </ul>
+        </div>
+{% else %}
+    {{form_start(formulaire)}}
+    {{form_widget(formulaire)}}
+    <input type="submit" class="btn btn-primary" value="envoyer"/>
+    {{form_end(formulaire)}}
+{% endif %}
+
+{% endblock %}
