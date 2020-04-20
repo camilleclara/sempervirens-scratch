@@ -155,4 +155,20 @@ class QuizzController extends AbstractController
         return $this->render('quizz/analyse.html.twig', ['choices'=>$choix, 'profil'=>$profilUtilisateur]);
 
     }
+    /**
+     * @Route("/quizz/cancel", name="delete_type_profile")
+     */
+    public function deleteType(Request $req, SessionInterface $session){
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->getUser();
+        $currentUser->setTypeProfil(null);
+        $choix = $currentUser->getChoixes();
+        foreach($choix as $choice){
+            $em->remove($choice);
+        }
+        $em->persist($currentUser);
+        $em->flush();
+        $session->set("pagenum", 1);
+        return $this->RedirectToRoute("create_form");
+    }
 }
