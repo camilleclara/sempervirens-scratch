@@ -13,30 +13,53 @@
         </div>
 {% else %}
 
-    <div class="example-wrapper">
-        {% if not messages %}
-        <p>You have not received any message yet</p>
-        {% else %}
-        <h1>Check your messages here !</h1>
-        <div>
-            <h2>Messages received</h2>
-            {% for message in messages %}
-                <p>{{message.texte}}</p>
-                <p>{{message.fromUser.pseudo}}</p>
-            {% endfor %}
-        </div>
-        {% endif %}
+<h1>Check your messages here !</h1>
+    <div class="example-wrapper container">
+       <div class="row">
         {% if not sendmessages %}
-        <p>You have not sent any message yet</p>
-        {% else %}
-        <div>
-            <h2>Messages sent</h2>
-            {% for sendmessage in sendmessages %}
-                <p>{{sendmessage.texte}}</p>
-                <p>{{sendmessage.fromUser.pseudo}}</p>
-            {% endfor %}
-        </div>
+        <p>You have not received any message yet</p>
+       {% else %}
+       <div class="col-6">
+           <h2>Messages received</h2>
+           {% for sendmessage in sendmessages %}
+           <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+               <div class="toast-header">
+               <strong class="mr-auto">Message from {{sendmessage.fromUser.pseudo}}</strong>
+               {% if not sendmessage.vu %}
+                        <span class='badge badge-danger badge-counter'>New</span><form action="{{path('message_read')}}" action="post"><input type="hidden" name="message" value="{{sendmessage.id}}"><button class="badge badge-pill badge-danger">&times;</button></form></small>
+
+               {% endif %}
+               </div>
+               <div class="toast-body">
+                   <p> {{sendmessage.texte}}</p>
+               </div>
+           </div>
+           {% endfor %}
+       </div>
+       {% endif %}
+
+            {% if not messages %}
+            <p>You have not sent any message yet</p>
+            {% else %}
+        
+            <div class="col-6">
+                <h2>Messages sent</h2>
+                {% for message in messages %}
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="mr-auto">Message for {{message.toUser.pseudo}}</strong>
+                    </div>
+                    <div class="toast-body">
+                        <p> {{message.texte}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         {% endif %}
+        
+            
+    </div>
+        
         
     </div>
 {% endif %}

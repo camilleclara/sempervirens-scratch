@@ -31,6 +31,11 @@ class Message
      */
     private $toUser;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $vu;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +73,18 @@ class Message
     public function setToUser(?User $toUser): self
     {
         $this->toUser = $toUser;
+
+        return $this;
+    }
+
+    public function getVu(): ?bool
+    {
+        return $this->vu;
+    }
+
+    public function setVu(?bool $vu): self
+    {
+        $this->vu = $vu;
 
         return $this;
     }

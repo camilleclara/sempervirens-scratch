@@ -36,6 +36,7 @@ class ProfileController extends AbstractController
         if($formulaireMessage->isSubmitted()&&$formulaireMessage->isValid()){
             
             $message->setFromUser($this->getUser());
+            $message->setVu(false);
             $member = $rep->findOneBy(['pseudo'=> $pseudo]);
             $message->setToUser($member);
             $em=$this->getDoctrine()->getManager();

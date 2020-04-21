@@ -26,7 +26,6 @@ class QuizzController extends AbstractController
 
         //If there was something in poste, execute this:
         if($req->request->count()>0){
-
             $idreponse=$req->request->get("reponse");
             $em = $this->getDoctrine()->getManager();
             $repQ = $em->getRepository(Question::class);
@@ -35,7 +34,6 @@ class QuizzController extends AbstractController
             $question = $reponse->getQuestion();
             $choix = new Choix();
             $choix->setUser($this->getUser());
-
             $choix->setReponse($reponse);
             $choix->setQuestion($question);
 

@@ -36,7 +36,8 @@
                 <a class="nav-link" href="{{path('trajets')}}">Maps</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{path('messages')}}">Messages</a>
+                <a class="nav-link" href="{{path('messages')}}">Messages{{ render(controller(
+            'App\\Controller\\MessageController::notifications')) }}</a>
               </li>
   
             </ul>
