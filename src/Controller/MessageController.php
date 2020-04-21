@@ -86,10 +86,14 @@ class MessageController extends AbstractController
      */
     public function show(Request $req)
     {
+
         $pseudo = $req->request->get("pseudo");
         $em = $this->getDoctrine()->getManager();
         $rep= $em->getRepository(User::class);
         $member = $rep->findOneBy(['pseudo'=> $pseudo]);
+        if ($member == $this->getUser()){
+            return $this->RedirectToRoute("profile");
+        }
         $message = new Message();
         $formulaireMessage=$this->createForm(MessageRegistrationFormType::class, $message);
         $formulaireMessage->handleRequest($req);

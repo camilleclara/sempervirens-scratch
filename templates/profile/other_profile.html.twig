@@ -20,9 +20,9 @@
 		</div>
 	{% else %}
 		<div class="jumbotron">
-			<h1 class="display-3">{{member.pseudo}}</h1>
+			<h1 class="display-3">Profile of {{member.pseudo|upper}}</h1>
 			{% if not member.typeProfil %}
-				<p class="lead">{{member.pseudo}}
+				<p class="lead">{{member.pseudo|capitalize}}
 					has not taken the test yet</p>
 			{% else %}
 				<p class="lead">{{member.pseudo}}
