@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MessageController!{% endblock %}
+
+{% block body %}
+{% if not app.user %}
+        <div class="example-wrapper">
+            <p>You are not logged in yet:</p>
+            <ul>
+                <li>Click <a href="{{ path('app_login')}}"> here</a> to log in</li>
+                <li>Click <a href="{{ path('app_register')}}">here</a> to register</li>
+            </ul>
+        </div>
+{% else %}
+<form action="{{path('answer_message')}}" method="post">
+    
+</form>
+{% endblock %}

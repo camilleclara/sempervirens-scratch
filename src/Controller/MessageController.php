@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Message;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,8 +23,15 @@ class MessageController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $messages = $this->getUser()->getMessages();
         $sendmessages = $this->getUser()->getSendMessages();
+        $newmessages = [];
+        foreach ($sendmessages as $content){
+            if(!$content->getVu()){
+                $newmessages[] = $content;
+            }
+        }
+        
         return $this->render('message/index.html.twig', [
-            'controller_name' => 'MessageController', 'messages'=>$messages, 'sendmessages'=>$sendmessages
+            'controller_name' => 'MessageController', 'messages'=>$messages, 'sendmessages'=>$sendmessages, 'newmessages'=>$newmessages
         ]);
         
     }
@@ -69,6 +77,34 @@ class MessageController extends AbstractController
             $em->flush();
 
         return $this->RedirectToRoute('messages');
+
+        
+    }
+    /**
+     * @Route("/answer/message/", name="answer_message")
+     */
+    public function answer(Request $req){
+        //récupérer l'expéditeur du message
+        //envoyer un nouveau message 
+        //attribuer le toUser à l'expéditeur
+        //stocker
+        //rediriger vers la messagerie
+
+        // $idfrom = $req->get("fromUser");
+        // $em = $this->getDoctrine()->getManager();
+        // $rep = $em->getRepository(User::class);
+        // $destinataire = $rep->findOneBy(['id'=>$idfrom]);
+        
+        // $message = new Message();
+        // $message->setTexte("test");
+
+        // $message->setToUser($destinataire);
+        // $message->setFromUser($this->getUser());
+        // $message->setVu(false);
+        // $em->persist($message);
+        // $em->flush();
+
+        // return $this->RedirectToRoute('messages');
 
         
     }
