@@ -1,19 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}SemperVirens - Home
+{% endblock %}
 
 {% block body %}
-<div class="jumbotron text-center">
-    <h1 class="display-3">Welcome to SemperVirens !</h1>
-    <p class="lead">Our goal is to help you towards a more sustainable lifestyle. </p>
+	<div class="jumbotron text-center">
+		<h1 class="display-3">Welcome to SemperVirens !</h1>
+		<p class="lead">Our goal is to help you towards a more sustainable lifestyle.
+		</p>
 
 
-{% if not app.user %}
-    <p class="lead">
-      <a class="btn btn-primary btn-lg" href="{{path('app_login')}}" role="button">Login</a>
-      <a class="btn btn-primary btn-lg" href="{{path('app_register')}}" role="button">Register</a>
-      
-    </p>
-{% endif %}
-  </div>
+		{% if not app.user %}
+			<p class="lead">
+				<a class="btn btn-primary btn-lg" href="{{path('app_login')}}" role="button">Login</a>
+				<a class="btn btn-primary btn-lg" href="{{path('app_register')}}" role="button">Register</a>
+
+			</p>
+		{% endif %}
+	</div>
 {% endblock %}

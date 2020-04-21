@@ -36,6 +36,11 @@ class Message
      */
     private $vu;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $object;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +90,18 @@ class Message
     public function setVu(?bool $vu): self
     {
         $this->vu = $vu;
+
+        return $this;
+    }
+
+    public function getObject(): ?string
+    {
+        return $this->object;
+    }
+
+    public function setObject(?string $object): self
+    {
+        $this->object = $object;
 
         return $this;
     }

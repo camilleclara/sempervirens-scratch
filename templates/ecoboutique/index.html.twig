@@ -1,48 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ecoboutique - SemperVirens{% endblock %}
+{% block title %}SemperVirens - EcoBoutique
+{% endblock %}
 
 {% block body %}
-    {% if not app.user %}
-        <div class="example-wrapper">
-            
+	{% if not app.user %}
+		<div class="example-wrapper">
+			<p>You are not logged in yet:</p>
+			<ul>
+				<li>Click
+					<a href="{{ path('app_login')}}">
+						here</a>
+					to log in</li>
+				<li>Click
+					<a href="{{ path('app_register')}}">here</a>
+					to register</li>
+			</ul>
+		</div>
+	{% else %}
+		<h1>Welcome to SemperVirens's EcoBoutique !</h1>
+		<a href="{{path('ecoboutique_add')}}" class='btn btn-primary'>Add an item</a>
+		{% if not items %}
+			<p>There is no item available for now, click
+				<a href="{{path('ecoboutique_add')}}">here</a>
+				to add one !</p>
+		{% else %}
+			<div class="row m-auto">
+				{% for item in paginationItems %}
+					<div class="card border-success m-3" style="max-width: 20rem;">
+						<div class="card-header">
+							<h4>{{item.nom}}</h4>
+						</div>
+						<div class="card-body">
+							{% if not item.image %}
+								<img src="{{img_folder}}/panda.jpg" alt="image de l'article" style='max-width:150px; max-height:150px;'>
+							{% else %}
+								<img src="{{img_folder}}/{{item.image}}" alt="image de l'article" style='max-width:150px; max-height:150px;'>
+							{% endif %}
+							<p class="card-title">{{item.description}}</p>
+							<br>
+							<form action="{{path('other_profile')}}" method="post">
+								<input type="hidden" name="pseudo" value="{{item.user.pseudo}}">
+								<p>This item is offered by
+									<button class="btn btn-secondary">{{item.user.pseudo}}</button>.</p>
+							</form>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% endif %}
 
-            <p>You are not logged in yet:</p>
-            <ul>
-                <li>Click <a href="{{ path('app_login')}}"> here</a> to log in</li>
-                <li>Click <a href="{{ path('app_register')}}">here</a> to register</li>
-            </ul>
-        </div>
-    {% else %}
-        <h1>Welcome to SemperVirens's EcoBoutique !</h1>
-        <a href="{{path('ecoboutique_add')}}" class='btn btn-primary'>Add an item</a>
-        {% if not items %}
-            <p>There is no item available for now, click <a href="{{path('ecoboutique_add')}}">here</a> to add one !</p>
-        {% else %}
-        <div class="row m-auto">
-            {% for item in paginationItems %}
-            <div class="card border-success m-3" style="max-width: 20rem;">
-                <div class="card-header"><h4>{{item.nom}}</h4></div>
-                <div class="card-body">
-                    {% if not item.image %}
-                    <img src="{{img_folder}}/panda.jpg" alt="image de l'article" style='max-width:150px; max-height:150px;'>
-                    {% else %}
-                        <img src="{{img_folder}}/{{item.image}}" alt="image de l'article" style='max-width:150px; max-height:150px;'>
-                    {% endif %}
-                    <p class="card-title">{{item.description}}</p>
-                    <br>
-                   <form action="{{path('other_profile')}}" method="post">
-                    <input type="hidden" name="pseudo" value="{{item.user.pseudo}}">
-                    <p>This item is offered by <button class="btn btn-secondary">{{item.user.pseudo}}</button>.</p>
-                   </form>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        <div class="paginationItems">
-            {{knp_pagination_render(paginationItems)}}
-        </div>
-    {% endif %}
+		<div class="paginationItems">
+			{{knp_pagination_render(paginationItems)}}
+		</div>
+	{% endif %}
 {% endblock %}

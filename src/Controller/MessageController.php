@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Message;
+use App\Form\MessageRegistrationFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -80,32 +81,34 @@ class MessageController extends AbstractController
 
         
     }
-    /**
-     * @Route("/answer/message/", name="answer_message")
+     /**
+     * @Route("/someone/", name="other_profile")
      */
-    public function answer(Request $req){
-        //récupérer l'expéditeur du message
-        //envoyer un nouveau message 
-        //attribuer le toUser à l'expéditeur
-        //stocker
-        //rediriger vers la messagerie
-
-        // $idfrom = $req->get("fromUser");
-        // $em = $this->getDoctrine()->getManager();
-        // $rep = $em->getRepository(User::class);
-        // $destinataire = $rep->findOneBy(['id'=>$idfrom]);
-        
-        // $message = new Message();
-        // $message->setTexte("test");
-
-        // $message->setToUser($destinataire);
-        // $message->setFromUser($this->getUser());
-        // $message->setVu(false);
-        // $em->persist($message);
-        // $em->flush();
-
-        // return $this->RedirectToRoute('messages');
-
+    public function show(Request $req)
+    {
+        $pseudo = $req->request->get("pseudo");
+        $em = $this->getDoctrine()->getManager();
+        $rep= $em->getRepository(User::class);
+        $member = $rep->findOneBy(['pseudo'=> $pseudo]);
+        $message = new Message();
+        $formulaireMessage=$this->createForm(MessageRegistrationFormType::class, $message);
+        $formulaireMessage->handleRequest($req);
+        if($formulaireMessage->isSubmitted()&&$formulaireMessage->isValid()){
+            
+            $message->setFromUser($this->getUser());
+            $message->setVu(false);
+            $member = $rep->findOneBy(['pseudo'=> $pseudo]);
+            $message->setToUser($member);
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($message);
+            $em->flush();
+            return $this->RedirectToRoute('messages');
+        }
+        else {
+            return $this->render('profile/other_profile.html.twig', [
+                'controller_name' => 'ProfileController', 'member'=>$member, 'formulaire'=>$formulaireMessage->createView()
+            ]);
+        }
         
     }
 }

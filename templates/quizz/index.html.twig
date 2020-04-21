@@ -1,36 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello QuizzController!{% endblock %}
+{% block title %}SemperVirens - Quizz
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
 
-{% if not app.user %}
-        <div class="example-wrapper">
-            
+	{% if not app.user %}
+		<div class="example-wrapper">
 
-            <p>You are not logged in yet:</p>
-            <ul>
-                <li>Click <a href="{{ path('app_login')}}"> here</a> to log in</li>
-                <li>Click <a href="{{ path('app_register')}}">here</a> to register</li>
-            </ul>
-        </div>
-{% else %}
 
-    <div class="example-wrapper">
-        
-        <h2>{{question.texte}}</h2>
+			<p>You are not logged in yet:</p>
+			<ul>
+				<li>Click
+					<a href="{{ path('app_login')}}">
+						here</a>
+					to log in</li>
+				<li>Click
+					<a href="{{ path('app_register')}}">here</a>
+					to register</li>
+			</ul>
+		</div>
+	{% else %}
 
-        <form method="post" action="">
+		<div class="example-wrapper">
 
-        {% for reponse in reponses %}
-            <div><input type="radio" name="reponse" value="{{reponse.id}}">{{reponse.texte}}</div>
-        {% endfor %}
-        <button type="submit">Send</button>
-        </form>
-    </div>
-    {% endif %}
+			<h2>{{question.texte}}</h2>
+
+			<form method="post" action="">
+
+				{% for reponse in reponses %}
+					<div><input type="radio" name="reponse" value="{{reponse.id}}">{{reponse.texte}}</div>
+				{% endfor %}
+				<button type="submit">Send</button>
+			</form>
+		</div>
+	{% endif %}
 {% endblock %}

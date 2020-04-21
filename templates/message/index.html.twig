@@ -1,106 +1,116 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MessageController!{% endblock %}
+{% block title %}SemperVirens - Messages 
+{% endblock %}
 
 {% block body %}
 {% if not app.user %}
-        <div class="example-wrapper">
-            <p>You are not logged in yet:</p>
-            <ul>
-                <li>Click <a href="{{ path('app_login')}}"> here</a> to log in</li>
-                <li>Click <a href="{{ path('app_register')}}">here</a> to register</li>
-            </ul>
-        </div>
+	<div class="example-wrapper">
+		<p>You are not logged in yet:</p>
+		<ul>
+			<li>Click
+				<a href="{{ path('app_login')}}">
+					here</a>
+				to log in</li>
+			<li>Click
+				<a href="{{ path('app_register')}}">here</a>
+				to register</li>
+		</ul>
+	</div>
 {% else %}
 
-<h1>Check your messages here !</h1>
-    <div class="example-wrapper container">
-       <div class="row">
-
-        
-        <div class="col-4">
-            <h2>New messages</h2>
-            {% if not newmessages %}
-        <p>You have not received any new message</p>
-        {% else %}
-            {% for newmessage in newmessages %}
-            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                <strong class="mr-auto">Message from {{newmessage.fromUser.pseudo}}</strong>
-                {% if not newmessage.vu %}
-                            <span class='badge badge-danger badge-counter'>New</span><form action="{{path('message_read')}}" action="post"><input type="hidden" name="message" value="{{newmessage.id}}"><button class="badge badge-pill badge-danger">&times;</button></form></small>
-
-                {% endif %}
-                </div>
-                <div class="toast-body">
-                    <p> {{newmessage.texte}}</p>
-                </div>
-                <hr>
-                <div class="text-center">
-                    <form action="{{path('other_profile')}}" method="post">
-                        <input type="hidden" name="pseudo" value="{{newmessage.fromUser.pseudo}}">
-                        <button class="btn btn-secondary">Answer</button>
-                    </form>
-                </div>
-            </div>
-            {% endfor %}
-            {% endif %}
-        </div>
-        
+	<h1>Check your messages here !</h1>
+	<div class="example-wrapper container">
+		<div class="row">
 
 
-        
-       <div class="col-4">
-           <h2>Messages received</h2>
-           {% if not sendmessages %}
-        <p>You have not received any message yet</p>
-       {% else %}
-           {% for sendmessage in sendmessages %}
-           <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-               <div class="toast-header">
-               <strong class="mr-auto">Message from {{sendmessage.fromUser.pseudo}}</strong>
-               </div>
-               <div class="toast-body">
-                   <p> {{sendmessage.texte}}</p>
-               </div>
-               <hr>
-               <div class="text-center">
-                <form action="{{path('other_profile')}}" method="post">
-                    <input type="hidden" name="pseudo" value="{{sendmessage.fromUser.pseudo}}">
-                    <button class="badge badge-pill badge-secondary">Reply</button>
-                    </form>
-               </div>
-           </div>
-           {% endfor %}
-           {% endif %}
-       </div>
-       
+			<div class="col-4">
+				<h2>New messages</h2>
+				{% if not newmessages %}
+					<p>You have not received any new message</p>
+				{% else %}
+					{% for newmessage in newmessages %}
+						<div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+							<div class="toast-header">
+								<strong class="mr-auto">{{newmessage.object}}</strong>
+								{% if not newmessage.vu %}
+									<span class='badge badge-danger badge-counter'>New</span>
+									<form action="{{path('message_read')}}" action="post"><input type="hidden" name="message" value="{{newmessage.id}}"><button class="badge badge-pill badge-success">&times;</button>
+									</form>
+								</small>
 
-            
-        
-            <div class="col-4">
-                <h2>Messages sent</h2>
-            {% if not messages %}
-            <p>You have not sent any message yet</p>
-            {% else %}
-                {% for message in messages %}
-                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                        <strong class="mr-auto">Message for {{message.toUser.pseudo}}</strong>
-                    </div>
-                    <div class="toast-body">
-                        <p> {{message.texte}}</p>
-                    </div>
-                </div>
-                {% endfor %}
-                {% endif %}
-            </div>
-        
-        
-            
-    </div>
-        
-        
-    </div>
-{% endif %}
-{% endblock %}
+							{% endif %}
+						</div>
+						<div class="toast-body">
+							<p>
+								{{newmessage.texte}}</p>
+						</div>
+						<hr>
+						<div class="text-center">
+							<form action="{{path('other_profile')}}" method="post">
+								<input type="hidden" name="pseudo" value="{{newmessage.fromUser.pseudo}}">
+								<p>from
+									{{newmessage.fromUser.pseudo|capitalize}}</p>
+								<button class="badge badge-pill badge-secondary">Reply</button>
+							</form>
+						</div>
+					</div>
+
+				{% endfor %}
+			{% endif %}
+		</div>
+
+		<div class="col-4">
+			<h2>Messages received</h2>
+			{% if sendmessages|length == 0 %}
+				<p>You have not received any message yet</p>
+			{% else %}
+				{% for sendmessage in sendmessages %}
+					<div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+						<div class="toast-header">
+							<strong class="mr-auto">{{sendmessage.object}}</strong>
+						</div>
+						<div class="toast-body">
+							<p>
+								{{sendmessage.texte}}</p>
+						</div>
+						<hr>
+						<div class="text-center">
+							<form action="{{path('other_profile')}}" method="post">
+								<input type="hidden" name="pseudo" value="{{sendmessage.fromUser.pseudo}}">
+								<p>from
+									{{sendmessage.fromUser.pseudo|capitalize}}</p>
+								<button class="badge badge-pill badge-secondary">Reply</button>
+							</form>
+						</div>
+					</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+
+
+		<div class="col-4">
+			<h2>Messages sent</h2>
+			{% if messages|length == 0 %}
+				<p>You have not sent any message yet</p>
+			{% else %}
+				{% for message in messages %}
+					<div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+						<div class="toast-header">
+							<strong class="mr-auto">{{message.object}}</strong>
+						</div>
+						<div class="toast-body">
+							<p>
+								{{message.texte}}</p>
+						</div>
+						<hr>
+						<div class="text-center">
+							<p>Sent to
+								{{message.fromUser.pseudo|capitalize}}</p>
+						</div>
+					</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+	</div>
+</div>{% endif %}{% endblock %}
