@@ -6,9 +6,11 @@ use App\Entity\Item;
 use App\Entity\User;
 
 use App\Entity\Scroll;
+use App\Entity\Status;
 use App\Entity\Reponse;
 use App\Entity\Question;
 use App\Entity\Categorie;
+use App\Entity\Challenge;
 use App\Entity\TypeProfil;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -26,6 +28,21 @@ class UserFixtures extends Fixture
     {
         // $product = new Product();
         // $manager->persist($product);
+        
+        //Creation des statuts pour les userschallenges
+        $todo= new Status();
+        $todo->setNom("todo");
+        $manager->persist($todo);
+
+        $done= new Status();
+        $done->setNom("done");
+        $manager->persist($done);
+
+        $accepted= new Status();
+        $accepted->setNom("accepted");
+        $manager->persist($accepted);
+
+  
         
         //création des catégories:
         $consommation = new Categorie();
@@ -587,6 +604,48 @@ class UserFixtures extends Fixture
             $user->setPrenom("Camille");
             $manager->persist($user);
         }
+        //Creating challenges
+        for ($i = 0; $i<5; $i++){
+            $challenge = new Challenge();
+            $challenge->setNom("Challenge conso ".$i);
+            $challenge->setDescription($i . "Ceci est la description d'un challenge de consommation lorem ipsum dolor sit amet patati et patata ce code est du php".$i);
+            $challenge->setCategorie($consommation);
+            $challenge->setNiveau(1);
+            $manager->persist($challenge);
+        }
+        for ($i = 5; $i<10; $i++){
+            $challenge = new Challenge();
+            $challenge->setNom("Challenge conso ".$i);
+            $challenge->setDescription($i . "Ceci est la description d'un challenge de consommation lorem ipsum dolor sit amet patati et patata ce code est du php".$i);
+            $challenge->setCategorie($consommation);
+            $challenge->setNiveau(2);
+            $manager->persist($challenge);
+        }
+        for ($i = 0; $i<5; $i++){
+            $challenge = new Challenge();
+            $challenge->setNom("Challenge diy ".$i);
+            $challenge->setDescription($i . "Ceci est la description d'un challenge de diy lorem ipsum dolor sit amet patati et patata ce code est du php".$i);
+            $challenge->setCategorie($diy);
+            $challenge->setNiveau(3);
+            $manager->persist($challenge);
+        }
+        for ($i = 0; $i<5; $i++){
+            $challenge = new Challenge();
+            $challenge->setNom("Challenge deplacements ".$i);
+            $challenge->setDescription($i . "Ceci est la description d'un challenge de deplacements lorem ipsum dolor sit amet patati et patata ce code est du php".$i);
+            $challenge->setCategorie($deplacements);
+            $challenge->setNiveau(4);
+            $manager->persist($challenge);
+        }
+        for ($i = 5; $i<10; $i++){
+            $challenge = new Challenge();
+            $challenge->setNom("Challenge deplacements ".$i);
+            $challenge->setDescription($i . "Ceci est la description d'un challenge de deplacements lorem ipsum dolor sit amet patati et patata ce code est du php".$i);
+            $challenge->setCategorie($deplacements);
+            $challenge->setNiveau(4);
+            $manager->persist($challenge);
+        }
+
         $manager->flush();
     }
 }

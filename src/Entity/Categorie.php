@@ -38,10 +38,16 @@ class Categorie
      */
     private $scrolls;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Challenge", mappedBy="categorie")
+     */
+    private $challenges;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
         $this->scrolls = new ArrayCollection();
+        $this->challenges = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,6 +135,37 @@ class Categorie
             // set the owning side to null (unless already changed)
             if ($scroll->getCategorie() === $this) {
                 $scroll->setCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Challenge[]
+     */
+    public function getChallenges(): Collection
+    {
+        return $this->challenges;
+    }
+
+    public function addChallenge(Challenge $challenge): self
+    {
+        if (!$this->challenges->contains($challenge)) {
+            $this->challenges[] = $challenge;
+            $challenge->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChallenge(Challenge $challenge): self
+    {
+        if ($this->challenges->contains($challenge)) {
+            $this->challenges->removeElement($challenge);
+            // set the owning side to null (unless already changed)
+            if ($challenge->getCategorie() === $this) {
+                $challenge->setCategorie(null);
             }
         }
 

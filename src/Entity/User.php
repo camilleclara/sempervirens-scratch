@@ -77,12 +77,21 @@ class User implements UserInterface
      */
     private $sendMessages;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserChallenge", mappedBy="user")
+     */
+    private $userChallenges;
+
+
     public function __construct()
     {
         $this->choixes = new ArrayCollection();
         $this->items = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->sendMessages = new ArrayCollection();
+        $this->challenges = new ArrayCollection();
+        $this->ongoingChallenge = new ArrayCollection();
+        $this->userChallenges = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -334,4 +343,36 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|UserChallenge[]
+     */
+    public function getUserChallenges(): Collection
+    {
+        return $this->userChallenges;
+    }
+
+    public function addUserChallenge(UserChallenge $userChallenge): self
+    {
+        if (!$this->userChallenges->contains($userChallenge)) {
+            $this->userChallenges[] = $userChallenge;
+            $userChallenge->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserChallenge(UserChallenge $userChallenge): self
+    {
+        if ($this->userChallenges->contains($userChallenge)) {
+            $this->userChallenges->removeElement($userChallenge);
+            // set the owning side to null (unless already changed)
+            if ($userChallenge->getUser() === $this) {
+                $userChallenge->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
