@@ -31,5 +31,16 @@ symfony server:start
  ## The functionalities 
  
  Sempervirens gives you access to:
+ * Register
+ * Login
+ * Sorting Quizz
+ * Profile page
+ * Review of items & possibility to add an item
+ * Messages (possibility to send and recieve messages)
+ 
+ Coming soon:
+ * Recording of your travels
+ * Possibility to accept and accomplish challenges
+ 
  
  
