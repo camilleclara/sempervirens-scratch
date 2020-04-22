@@ -42,8 +42,6 @@ class UserFixtures extends Fixture
         $accepted->setNom("accepted");
         $manager->persist($accepted);
 
-  
-        
         //création des catégories:
         $consommation = new Categorie();
         $consommation->setNom("consommation");

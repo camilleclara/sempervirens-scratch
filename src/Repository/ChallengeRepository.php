@@ -19,32 +19,27 @@ class ChallengeRepository extends ServiceEntityRepository
         parent::__construct($registry, Challenge::class);
     }
 
-    // /**
     //  * @return Challenge[] Returns an array of Challenge objects
-    //  */
-    /*
-    public function findByExampleField($value)
+ 
+    public function findByCategorie($categorie)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('c.Categorie = :val')
+            ->setParameter('val', $categorie)
             ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Challenge
+    public function findByNiveau($niveau)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('c.Niveau = :val')
+            ->setParameter('val', $niveau)
+            ->orderBy('c.id', 'ASC')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+    
 }

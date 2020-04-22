@@ -3,14 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Status;
+use App\Entity\Challenge;
+use App\Entity\UserChallenge;
 use App\Form\RegistrationFormType;
-use App\Security\FormulaireLoginAuthenticator;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use App\Security\FormulaireLoginAuthenticator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -34,10 +37,26 @@ class RegistrationController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
-            $entityManager->flush();
+            
 
             // do anything else you need here, like send an email
+            // build the userchallenges
+            $repChallenges = $entityManager->getRepository(Challenge::class);
+            $allChallenges = $repChallenges->findAll();
 
+            $repStatus = $entityManager->getRepository(Status::class);
+            $todo = $repStatus->findOneBy(['nom'=>"todo"]);
+            foreach ($allChallenges as $challenge){
+                $potato = new UserChallenge();
+                $potato->setUser($user);
+                $potato->setStatus($todo);
+                $potato->setChallenge($challenge);
+                $entityManager->persist($potato);
+            }
+
+            
+
+            $entityManager->flush();
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
