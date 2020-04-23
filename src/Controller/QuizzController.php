@@ -66,6 +66,7 @@ class QuizzController extends AbstractController
         //get possible answers with question id
         $repR = $em->getRepository(Reponse::class);
         $reponses = $repR->findBy(['question' => $page]);
+        shuffle($reponses);
 
         //increment pagenumber in the session
         $incrempage = $page + 1;

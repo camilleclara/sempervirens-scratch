@@ -50,48 +50,51 @@
 		</div>
 		<h2>Challenges:
 		</h2>
-		<div class="row m-auto">
-			<div class="card text-white bg-primary m-3" style="max-width: 20rem;">
-				<div class="card-header">Challenge Accepted !</div>
-				<div class="card-body">
-					<h4 class="card-title">Do this do that
-					</h4>
-					<p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo laboriosam iste perferendis. Assumenda eveniet sequi ut veniam numquam consequuntur molestiae debitis dicta, ad consectetur ipsam, optio error aperiam possimus reiciendis.</p>
-				</div>
-			</div>
+		<div class="row">
+			{% if not acceptedChallenge %}
+			<p>
+				You don't have an accepted Challenge at the moment.</p>
+			<p>Get to the
+				<a href="{{path('challenges')}}">
+					challenge page
+				</a>
+				to review and accept your next challenge !</p>
+		{% else %}
 
-			<div class="card text-white bg-success m-3" style="max-width: 20rem;">
-				<div class="card-header">Challenge Fulfilled!</div>
-				<div class="card-body">
-					<h4 class="card-title">You are a winner !</h4>
-					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi quam voluptatem molestiae rem aspernatur fugit, enim deserunt impedit optio molestias reprehenderit, blanditiis nisi vitae aliquam officiis. Esse, eaque consequuntur</p>
+			
+				<div class="card text-white bg-primary m-3" style="max-width: 20rem;">
+					<div class="card-header">Challenge Accepted !</div>
+					<div class="card-body">
+						<h4 class="card-title">{{acceptedChallenge.challenge.nom}}
+						</h4>
+						<p class="card-text">{{acceptedChallenge.challenge.description}}</p>
+					</div>
 				</div>
-			</div>
+				
 
-			<div class="card text-white bg-success m-3" style="max-width: 20rem;">
-				<div class="card-header">Challenge Fulfilled!</div>
-				<div class="card-body">
-					<h4 class="card-title">You are a winner !</h4>
-					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi quam voluptatem molestiae rem aspernatur fugit, enim deserunt impedit optio molestias reprehenderit, blanditiis nisi vitae aliquam officiis. Esse, eaque consequuntur</p>
-				</div>
-			</div>
-
-			<div class="card text-white bg-success m-3" style="max-width: 20rem;">
-				<div class="card-header">Challenge Fulfilled!</div>
-				<div class="card-body">
-					<h4 class="card-title">You are a winner !</h4>
-					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi quam voluptatem molestiae rem aspernatur fugit, enim deserunt impedit optio molestias reprehenderit, blanditiis nisi vitae aliquam officiis. Esse, eaque consequuntur</p>
-				</div>
-			</div>
-
-			<div class="card text-white bg-success m-3" style="max-width: 20rem;">
-				<div class="card-header">Challenge Fulfilled!</div>
-				<div class="card-body">
-					<h4 class="card-title">You are a winner !</h4>
-					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi quam voluptatem molestiae rem aspernatur fugit, enim deserunt impedit optio molestias reprehenderit, blanditiis nisi vitae aliquam officiis. Esse, eaque consequuntur</p>
-				</div>
-			</div>
-
+			
+		{% endif %}
+		{% if not doneChallenges %}
+				<p>
+					You haven't completed any challenge yet. </p>
+				<p>Get to the
+					<a href="{{path('challenges')}}">
+						challenge page
+					</a>
+					to complete your next challenge !</p>
+				{% else %}
+					
+						{% for doneChallenge in doneChallenges %}
+						<div class="card text-white bg-success m-3" style="max-width: 20rem;">
+							<div class="card-header">You did it !!</div>
+							<div class="card-body">
+								<h4 class="card-title">{{doneChallenge.challenge.nom}}</h4>
+								<p class="card-text">{{doneChallenge.challenge.description}}</p>
+							</div>
+						</div>
+					{% endfor %}
+					
+				{% endif %}
 		</div>
 	{% endif %}
 {% endblock %}

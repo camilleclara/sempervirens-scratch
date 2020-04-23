@@ -27,7 +27,7 @@ class ChallengesController extends AbstractController
         $accepted=$repStatusOne->findOneBy(['nom'=>'accepted']);
         
         $repUserChallenge =$em->getRepository(UserChallenge::class);
-        $allUserChallenges = $repUserChallenge->findAll();
+        $allUserChallenges = $repUserChallenge->findBy(['user'=>$this->getUser()]);
 
         
 
@@ -69,7 +69,8 @@ class ChallengesController extends AbstractController
                 $todoChallenges[]= $ch;
             }
         }
-        $random = rand(0, count($todoChallenges)-1);
+        $max = count($todoChallenges)-1;
+        $random = rand(1, $max);
         $nextChallenge = $todoChallenges[$random];
         
 
