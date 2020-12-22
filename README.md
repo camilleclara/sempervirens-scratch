@@ -36,7 +36,7 @@ symfony server:start
  * Sorting Quizz
  * Profile page
  * Review of items & possibility to add an item
- * Messages (possibility to send and recieve messages)
+ * Messages (possibility to send and receive messages)
  
  Coming soon:
  * Recording of your travels
